@@ -43,3 +43,4 @@ TODO:
 - Develop template_searchpath for sql script with ClickHouseOperator  
 - Small data - XCom, Big Data - Custom XCom Backends  
 - Discuss datamart format and partitioning  
+- Make changes to sql scripts as needed  
