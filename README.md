@@ -29,6 +29,7 @@ exit
 
 
 **Step 5 (Connection)**:  
+docker network ls  
 docker network inspect data-platform_default  
 - set connection ip from "Gateway": "172.23.0.1" (example)  
 - Connection Id: clickhouse_default  
