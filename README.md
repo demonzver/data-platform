@@ -34,6 +34,7 @@ docker network inspect data-platform_default
 - set connection ip from "Gateway": "172.23.0.1" (example)  
 - Connection Id: clickhouse_default  
 - Host: 172.23.0.1 (example)  
+- Login: default  
 - Port: 9000  
 
 
