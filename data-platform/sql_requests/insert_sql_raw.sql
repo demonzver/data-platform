@@ -1,0 +1,1 @@
+SHOW CREATE TABLE `default`.json_raw
