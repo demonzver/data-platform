@@ -9,7 +9,7 @@ sudo service docker status
 
 
 **Step 2 (Docker Compose)**:  
-cd <path-to-docker-compose.yaml>
+cd <path-to-docker-compose.yaml>  
 mkdir ./dags ./logs ./plugins ./sql_requests  
 echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" > .env  
 sudo docker-compose up airflow-init  
