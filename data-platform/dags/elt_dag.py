@@ -111,12 +111,12 @@ with DAG(
         python_callable=extract_load,
         provide_context=True,
         templates_dict={"query_create_sql_json_raw": "create_sql_json_raw.sql",
-                        "query_insert_sql_raw": "insert_sql_raw.sql"},
+                        "query_insert_sql_raw":      "insert_sql_raw.sql"},
         params={"json_raw": f"{json_raw_tbl_name}"},
         op_kwargs={"api_historical_start_date": f"{api_historical_start_date}",
                    "api_symbols": f"{api_symbols}",
-                   "api_request_latest": "https://api.exchangerate.host/latest?symbols={api_symbols}",
-                   "api_request_historical": ""'https://api.exchangerate.host/timeseries?start_date={start_date}&end_date={end_date}&symbols={symbols}'""
+                   "api_request_latest":     "https://api.exchangerate.host/latest?symbols={api_symbols}",
+                   "api_request_historical": "https://api.exchangerate.host/timeseries?start_date={start_date}&end_date={end_date}&symbols={symbols}"
                    },
     )
 
@@ -124,11 +124,9 @@ with DAG(
         task_id='transform',
         python_callable=transform,
         templates_dict={"query_create_sql_target": "create_sql_target.sql",
-                        "query_transform_sql": "transform_sql.sql"},
-        params={
-            "json_raw":   f"{json_raw_tbl_name}",
-            "rate_pairs": f"{rate_pairs_tbl_name}"
-        },
+                        "query_transform_sql":     "transform_sql.sql"},
+        params={"json_raw":   f"{json_raw_tbl_name}",
+                "rate_pairs": f"{rate_pairs_tbl_name}"},
     )
 
     extract_load_task >> transform_task
