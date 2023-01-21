@@ -10,7 +10,7 @@ import os
 import json
 
 
-json_raw_tbl_name = "default.json_raw"      # Table name for raw json files extracted from API https://exchangerate.host/#/
+json_raw_tbl_name =   "default.json_raw"    # Table name for raw json files extracted from API https://exchangerate.host/#/
 rate_pairs_tbl_name = "default.rate_pairs"  # Table name for result parsed data partitioned by YYYYMM for date column
 api_historical_start_date = "2023-01-01"
 api_symbols = "BTC,USD"
