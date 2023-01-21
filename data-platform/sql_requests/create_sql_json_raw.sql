@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS default.json_raw
+CREATE TABLE IF NOT EXISTS {{ params.json_raw }}
 (dt_add DateTime,
 json_string String)
 ENGINE = MergeTree

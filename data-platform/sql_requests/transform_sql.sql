@@ -1,4 +1,4 @@
-INSERT INTO default.rate_pairs (`date`, dt_add, rate1_rate2, base, rate1, rate2)
+INSERT INTO {{ params.rate_pairs }} (`date`, dt_add, rate1_rate2, base, rate1, rate2)
 SELECT
 	date
 	,dt_add
@@ -13,5 +13,5 @@ FROM (
 		,arrayJoin(JSONExtractKeysAndValuesRaw(visitParamExtractRaw(json_string, 'rates'))).1 as date
 		,arrayJoin(JSONExtractKeysAndValuesRaw(visitParamExtractRaw(json_string, 'rates'))).2 as rates_key_value
 	FROM json_raw
-	WHERE dt_add = (SELECT argMax(dt_add, dt_add) FROM `default`.json_raw)
+	WHERE dt_add = (SELECT argMax(dt_add, dt_add) FROM {{ params.json_raw }})
 )

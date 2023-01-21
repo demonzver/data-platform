@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS default.rate_pairs
+CREATE TABLE IF NOT EXISTS {{ params.rate_pairs }}
 (`date` DateTime,
 `dt_add` DateTime,
 `rate1_rate2` Nullable(String),

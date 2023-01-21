@@ -9,6 +9,7 @@ import requests
 import os
 import json
 
+
 with DAG(
     'elt_dag',
     default_args={'retries': 0},
@@ -21,29 +22,16 @@ with DAG(
     template_searchpath='/opt/airflow/sql_requests',
 ) as dag:
 
+
     class SQLTemplatedPythonOperator(PythonOperator):
         template_ext = ('.sql', '.cql')
 
-    def run_code_from_sql_requests(conn_hook, filename):
-        filedir = os.path.join(os.environ['AIRFLOW_HOME'], 'sql_requests')
-        filepath = os.path.join(filedir, filename)
-
-        with open(filepath, 'r') as sql_file:
-            sql_code = sql_file.read()
-            queries = sql_code.split(';')
-
-        # Filter from empty query
-        queries[:] = [x for x in queries if x]
-
-        # Execute every command from the input file
-        for query in queries:
-            conn_hook.run(query)
-        return queries
 
     def check_table_exists(conn_hook, tablename):
         query = f"EXISTS TABLE {tablename}"
         records = conn_hook.get_records(query)
         return records[0][0]
+
 
     # [START extract_load_function]
     def extract_load(**kwargs):
@@ -100,13 +88,17 @@ with DAG(
 
     # [END extract_load_function]
 
+
     # [START transform_function]
     def transform(**kwargs):
         ch_hook = ClickHouseHook(clickhouse_conn_id='clickhouse_default')
-        run_code_from_sql_requests(ch_hook, 'create_sql_target.sql')
-        run_code_from_sql_requests(ch_hook, 'transform_sql.sql')
+        create_sql_target = kwargs["templates_dict"]["query_create_sql_target"]
+        transform_sql = kwargs["templates_dict"]["query_transform_sql"]
+        ch_hook.run(create_sql_target)
+        ch_hook.run(transform_sql)
 
     # [END transform_function]
+
 
     # [START main_flow]
     extract_load_task = SQLTemplatedPythonOperator(
@@ -115,7 +107,7 @@ with DAG(
         provide_context=True,
         templates_dict={"query_create_sql_json_raw": "create_sql_json_raw.sql",
                         "query_insert_sql_raw": "insert_sql_raw.sql"},
-        params={"json_raw": "default.json_raw"},
+        params={"json_raw": "default.json_raw"},  # table name for json files
         op_kwargs={"api_historical_start_date": "2023-01-01",
                    "api_symbols": "BTC,USD",
                    "api_request_latest": "https://api.exchangerate.host/latest?symbols={api_symbols}",
@@ -123,9 +115,15 @@ with DAG(
                    },
     )
 
-    transform_task = PythonOperator(
+    transform_task = SQLTemplatedPythonOperator(
         task_id='transform',
         python_callable=transform,
+        templates_dict={"query_create_sql_target": "create_sql_target.sql",
+                        "query_transform_sql": "transform_sql.sql"},
+        params={
+            "json_raw":   "default.json_raw",   # table name for json files
+            "rate_pairs": "default.rate_pairs"  # table name for parsed data
+        },
     )
 
     extract_load_task >> transform_task
