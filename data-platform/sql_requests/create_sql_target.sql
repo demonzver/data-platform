@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS `default`.rate_pairs
+CREATE TABLE IF NOT EXISTS default.rate_pairs
 (`date` DateTime,
-`dt` DateTime,
+`dt_add` DateTime,
 `rate1_rate2` Nullable(String),
 `base` Nullable(String),
 `rate1` Nullable(Float64),

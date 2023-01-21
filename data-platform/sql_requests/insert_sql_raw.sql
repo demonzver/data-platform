@@ -1,1 +1,1 @@
-SHOW CREATE TABLE `default`.json_raw
+INSERT INTO {{ params.json_raw }} VALUES (now(), 'data_json_str')
