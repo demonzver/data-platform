@@ -10,12 +10,17 @@ import os
 import json
 
 
+json_raw_tbl_name = "default.json_raw"      # Table name for raw json files extracted from API https://exchangerate.host/#/
+rate_pairs_tbl_name = "default.rate_pairs"  # Table name for result parsed data partitioned by YYYYMM for date column
+api_historical_start_date = "2023-01-01"
+api_symbols = "BTC,USD"
+
+
 with DAG(
     'elt_dag',
     default_args={'retries': 0},
     description='ELT DAG',
-    # schedule_interval='0 */3 * * *',
-    schedule_interval=None,
+    schedule_interval='0 */3 * * *',
     start_date=pendulum.datetime(2022, 1, 9, tz="UTC"),
     catchup=False,
     tags=['zdm'],
@@ -107,9 +112,9 @@ with DAG(
         provide_context=True,
         templates_dict={"query_create_sql_json_raw": "create_sql_json_raw.sql",
                         "query_insert_sql_raw": "insert_sql_raw.sql"},
-        params={"json_raw": "default.json_raw"},  # table name for json files
-        op_kwargs={"api_historical_start_date": "2023-01-01",
-                   "api_symbols": "BTC,USD",
+        params={"json_raw": f"{json_raw_tbl_name}"},
+        op_kwargs={"api_historical_start_date": f"{api_historical_start_date}",
+                   "api_symbols": f"{api_symbols}",
                    "api_request_latest": "https://api.exchangerate.host/latest?symbols={api_symbols}",
                    "api_request_historical": ""'https://api.exchangerate.host/timeseries?start_date={start_date}&end_date={end_date}&symbols={symbols}'""
                    },
@@ -121,8 +126,8 @@ with DAG(
         templates_dict={"query_create_sql_target": "create_sql_target.sql",
                         "query_transform_sql": "transform_sql.sql"},
         params={
-            "json_raw":   "default.json_raw",   # table name for json files
-            "rate_pairs": "default.rate_pairs"  # table name for parsed data
+            "json_raw":   f"{json_raw_tbl_name}",
+            "rate_pairs": f"{rate_pairs_tbl_name}"
         },
     )
 
