@@ -1,10 +1,17 @@
-INSERT INTO `default`.rate_pairs (`date`, dt, rate1_rate2, base, rate1, rate2)
+INSERT INTO {{ params.rate_pairs }} (`date`, dt_add, rate1_rate2, base, rate1, rate2)
 SELECT
-	toDateTime(parseDateTimeBestEffortOrNull(replaceRegexpAll(visitParamExtractRaw(json_string, 'date'), '"', ''))) AS `date`,
-	`dt`,
-	'BTCUSD' as rate1_rate2,
-	replaceRegexpAll(visitParamExtractRaw(json_string, 'base'), '"', '') as base,
-    toFloat64OrNull(trim(BOTH ' ' FROM visitParamExtractRaw(visitParamExtractRaw(json_string, 'rates'), 'BTC'))) as rate1,
-    toFloat64OrNull(trim(BOTH ' ' FROM visitParamExtractRaw(visitParamExtractRaw(json_string, 'rates'), 'USD'))) as rate2
-FROM json_raw
-WHERE dt = (SELECT argMax(dt, dt) FROM `default`.json_raw)
+	date
+	,dt_add
+	,concat(JSONExtractKeysAndValuesRaw(rates_key_value)[1].1, JSONExtractKeysAndValuesRaw(rates_key_value)[2].1) as rate1_rate2
+	,base
+	,JSONExtractKeysAndValuesRaw(rates_key_value)[1].2 as rate1
+	,JSONExtractKeysAndValuesRaw(rates_key_value)[2].2 as rate2
+FROM (
+	SELECT
+		dt_add
+		,replaceRegexpAll(visitParamExtractRaw(json_string, 'base'), '"', '') as base
+		,arrayJoin(JSONExtractKeysAndValuesRaw(visitParamExtractRaw(json_string, 'rates'))).1 as date
+		,arrayJoin(JSONExtractKeysAndValuesRaw(visitParamExtractRaw(json_string, 'rates'))).2 as rates_key_value
+	FROM json_raw
+	WHERE dt_add = (SELECT argMax(dt_add, dt_add) FROM {{ params.json_raw }})
+)

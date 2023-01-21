@@ -1,6 +1,7 @@
 # Тестовое задание Airflow 
 
 **Description**: Test ELT data-platform with Airflow 2.4.1 and ClickHouse server version 22.1.3 and client version 22.1.3.7
+API https://exchangerate.host/#/
 
 
 **Step 1 (Docker start)**:  
@@ -39,8 +40,8 @@ docker network inspect data-platform_default
 
 
 TODO:  
-- Historical case  (API example url = 'https://api.exchangerate.host/timeseries?start_date=2022-01-01&end_date=2022-01-09&symbols=BTC,USD')  
-- Develop template_searchpath for sql script with ClickHouseOperator  
+- (DONE) Historical case  (API example url = 'https://api.exchangerate.host/timeseries?start_date=2022-01-01&end_date=2022-01-09&symbols=BTC,USD')  
+- (DONE) Develop template_searchpath for sql script with ClickHouseOperator  
 - Small data - XCom, Big Data - Custom XCom Backends  
 - Discuss datamart format and partitioning  
 - Make changes to sql scripts as needed  

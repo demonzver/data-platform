@@ -1,6 +1,8 @@
-CREATE TABLE IF NOT EXISTS `default`.json_raw
-(`dt` DateTime,
-`json_string` String)
+CREATE TABLE IF NOT EXISTS {{ params.json_raw }}
+(
+    `dt_add` DateTime,
+    `json_string` String
+)
 ENGINE = MergeTree
-PARTITION BY toYYYYMM(`dt`)
-ORDER BY dt
+PARTITION BY toYYYYMM(dt_add)
+ORDER BY dt_add
