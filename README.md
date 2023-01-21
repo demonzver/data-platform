@@ -1,6 +1,6 @@
 # Тестовое задание Airflow 
 
-**Description**: Test ELT data-platform with Airflow 2.4.1 and ClickHouse server version 22.1.3 and client version 22.1.3.7
+**Description**: Test ELT data-platform with Airflow 2.4.1 and ClickHouse server version 22.1.3 and client version 22.1.3.7  
 API https://exchangerate.host/#/
 
 
