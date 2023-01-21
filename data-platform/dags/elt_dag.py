@@ -86,7 +86,7 @@ with DAG(
             data = response.json()
             data_json_str = json.dumps(data)
             insert_sql_raw = kwargs["templates_dict"]["query_insert_sql_raw"]
-            insert_sql_raw = insert_sql_raw.replace("data_json_str", data_json_str)
+            insert_sql_raw = insert_sql_raw.format(data_json_str = data_json_str)
             ch_hook.run(insert_sql_raw)
         else:
             print(f"Responce for request {api_request_historical} is bad and status_code: {response.status_code}")

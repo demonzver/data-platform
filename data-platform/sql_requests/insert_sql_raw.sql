@@ -1,1 +1,1 @@
-INSERT INTO {{ params.json_raw }} VALUES (now(), 'data_json_str')
+INSERT INTO {{ params.json_raw }} VALUES (now(), '{data_json_str}')
