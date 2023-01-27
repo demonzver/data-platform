@@ -32,9 +32,7 @@ sudo docker-compose up -d
 
 
 **Step 3 (Airflow UI)**:  
-```http
-http://localhost:8080/  
-```
+ http://localhost:8080/
 - login: airflow  
 - password: airflow  
 
