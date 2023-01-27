@@ -227,8 +227,6 @@ services:
       - "9000:9000"
     volumes:
       - ./db:/var/lib/clickhouse
-    networks:
-      - default
 
   click_client:
     image: yandex/clickhouse-client
@@ -236,10 +234,15 @@ services:
       - /bin/sleep
     command:
       - infinity
-    networks:
-      - default
 
 volumes:
   postgres-db-volume:
 
+networks:
+  default:
+    name: ddl
+    ipam:
+      config:
+        - subnet: 172.50.0.0/24
+          gateway: 172.50.0.1
 
