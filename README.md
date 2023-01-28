@@ -21,7 +21,7 @@ cd <path-to-docker-compose.yaml>
 mkdir ./dags ./logs ./plugins ./sql_requests  
 ```  
 ```sh
-echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" > .e
+echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" > .env
 ```  
 ```sh
 sudo docker-compose up airflow-init  
