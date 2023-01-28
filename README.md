@@ -67,7 +67,7 @@ Set Connections:
 | Port            | 9000               |
 
 
-TODO:  
+### TODO:    
 - (DONE) Historical case  (API example url = 'https://api.exchangerate.host/timeseries?start_date=2022-01-01&end_date=2022-01-09&symbols=BTC,USD')  
 - (DONE) Develop template_searchpath for sql script with ClickHouseOperator  
 - Small data - XCom, Big Data - Custom XCom Backends  
