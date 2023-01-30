@@ -5,12 +5,26 @@ import json
 
 
 def check_table_exists(conn_hook, table_name):
+    """Checking the existence of a table in the database.
+
+    Parameters:
+    ----------
+    conn_hook (class 'airflow_clickhouse_plugin.hooks.clickhouse_hook.ClickHouseHook'): ClickHouseHook
+    table_name (int): Table name
+
+    Returns:
+    ----------
+    int: 1 if table exists 0 if not
+   """
     query = f"EXISTS TABLE {table_name}"
     records = conn_hook.get_records(query)
+    print(f"conn_hook: {type(conn_hook)}")
+    print(f"records[0][0]: {type(records[0][0])}")
     return records[0][0]
 
 
 def extract_load(**kwargs):
+    """Extracting data from the API and writing to the database in raw json format with recording time."""
     ch_hook = ClickHouseHook(clickhouse_conn_id='clickhouse_default')
 
     # Request to detection latest date
@@ -64,6 +78,8 @@ def extract_load(**kwargs):
 
 
 def transform(**kwargs):
+    """Transformation of data for the last date from a table with raw jsons
+    into rows and columns of the final data mart."""
     ch_hook = ClickHouseHook(clickhouse_conn_id='clickhouse_default')
     create_sql_target = kwargs["templates_dict"]["query_create_sql_target"]
     transform_sql = kwargs["templates_dict"]["query_transform_sql"]
