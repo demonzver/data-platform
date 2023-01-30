@@ -69,7 +69,11 @@ Set Connections:
 
 ### TODO:    
 - (DONE) Historical case  (API example url = 'https://api.exchangerate.host/timeseries?start_date=2022-01-01&end_date=2022-01-09&symbols=BTC,USD')  
-- (DONE) Develop template_searchpath for sql script with ClickHouseOperator  
-- Small data - XCom, Big Data - Custom XCom Backends  
-- Discuss datamart format and partitioning  
-- Make changes to sql scripts as needed  
+- (DONE) Develop template_searchpath for sql script with ClickHouseOperator
+- (DONE) Removed unused imports
+- (DONE) Moved TemplatedPythonOperator into plugins
+- (DONE) Added doc strings for python functions
+- (DONE) Moved python func into funcs.py module\
+- (DONE) Switched docker compose into LocalExecutor mode and removed services for CeleryExecutor
+- Remake custom operators to standard
+
