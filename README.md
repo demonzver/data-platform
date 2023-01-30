@@ -75,5 +75,5 @@ Set Connections:
 - (DONE) Added doc strings for python functions
 - (DONE) Moved python func into funcs.py module\
 - (DONE) Switched docker compose into LocalExecutor mode and removed services for CeleryExecutor
-- Remake custom operators to standard
+- Remake custom operators to standard operators
 
